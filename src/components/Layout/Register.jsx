@@ -1,11 +1,16 @@
+import { useContext } from "react";
+import { AuthContext } from "../../provider/AuthProvaider";
 
 const Register = () => {
+    const {createUser} = useContext(AuthContext)
+
     const handleRegister = e =>{
         e.preventDefault()
         const name = e.target.name.value;
         const email = e.target.email.value;
         const pass = e.target.password.value;
         console.log(name, email, pass);
+        createUser(email, pass)
     }
     return (
         <div className="flex justify-center">
