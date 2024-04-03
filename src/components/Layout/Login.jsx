@@ -1,9 +1,13 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../../provider/AuthProvaider";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 const Login = () => {
-    const {signInUser, googleSignIn, setUser} = useContext(AuthContext)
+    const {signInUser, googleSignIn, setUser, user} = useContext(AuthContext)
+
+    const location = useLocation()
+    const naviget = useNavigate()
 
     const handleLogin = e =>{
         e.preventDefault()
@@ -19,6 +23,13 @@ const Login = () => {
         .then(result => setUser(result.user))
         .catch(error => console.log(error.message))
     }
+
+    useEffect(()=>{
+      if(user){
+        naviget(location.state)
+      }
+    },[user, naviget, location])
+
   return (
     <div className="flex justify-center">
       <div className="md:w-1/2">
