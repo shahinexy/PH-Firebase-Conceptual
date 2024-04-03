@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../provider/AuthProvaider";
 
 const Register = () => {
-    const {createUser} = useContext(AuthContext)
+    const {createUser, setUser} = useContext(AuthContext)
     const [error, setError] = useState('')
 
     const handleRegister = e =>{
@@ -13,7 +13,7 @@ const Register = () => {
         const confirmPass = e.target.confirm.value;
 
         if(!/@gmail\.com$/.test(email)){
-            setError(`email should be contain '@gmail.com'`)
+            setError(`email must end with '@gmail.com'`)
             return
         }
         if(pass.length < 6){
@@ -32,6 +32,15 @@ const Register = () => {
         setError('')
         console.log(name, email, pass);
         createUser(email, pass)
+        .then(result => {
+            const user = result.user;
+            console.log(user);
+            setUser(user)
+        })
+        .catch(error => {
+            const errormsg = error.message
+            setError(errormsg);
+        })
     }
     return (
         <div className="flex justify-center">

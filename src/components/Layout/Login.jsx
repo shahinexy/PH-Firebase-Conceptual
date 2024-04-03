@@ -3,7 +3,7 @@ import { AuthContext } from "../../provider/AuthProvaider";
 
 
 const Login = () => {
-    const {signInUser} = useContext(AuthContext)
+    const {signInUser, googleSignIn, setUser} = useContext(AuthContext)
 
     const handleLogin = e =>{
         e.preventDefault()
@@ -11,6 +11,13 @@ const Login = () => {
         const pass = e.target.password.value;
         console.log(email, pass);
         signInUser(email, pass)
+        .then(result => console.log(result.user))
+        .catch(error => console.log(error.message))
+    }
+    const handleGoogle = ()=>{
+        googleSignIn()
+        .then(result => setUser(result.user))
+        .catch(error => console.log(error.message))
     }
   return (
     <div className="flex justify-center">
@@ -47,6 +54,9 @@ const Login = () => {
           </div>
           <div className="form-control mt-6">
             <button className="btn bg-purple-500 text-white text-lg font-bold">Login</button>
+          </div>
+          <div>
+            <p onClick={handleGoogle} className="my-3 underline cursor-pointer">Google Login</p>
           </div>
         </form>
       </div>
